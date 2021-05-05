@@ -1,26 +1,24 @@
 -- Math module
 module EulerMath
-    ( minus
-    , sum'
+    ( module EulerUtil
     , sumRange
     , isPrime
     , primeFactors
     , factors
+    , numFactors
+    , sumFactors
     , primes
     , xnacci
     , xnaccis
     , fib
     , fibs
-    , Matrix(..)
-    , identity
-    , Nat
-    , lazyLen
     ) where
 
 import Data.List
 import EulerUtil
 
 -- | Sum of range [a, a + d .. d]
+sumRange :: Integral a => a -> a -> a -> a
 sumRange a b d =
     let n = (b - a) `div` d + 1
         b' = (n - 1) * d + a -- n - 1 to exclude first term (a)
@@ -39,9 +37,10 @@ isPrime n
 --
 -- e.g.,
 --
--- primeFactors 54 == [2, 3, 3, 3]
-primeFactors :: Integral a => a -> [a]
-primeFactors = go primes
+-- primeFactors 54 == [(2, 1), (3, 3)]
+primeFactors :: (Integral a, Integral b) => a -> [(a, b)]
+primeFactors =
+    map (\xs@(x:_) -> (x, fromIntegral $ length xs)) . group . go primes
   where
     go (p:ps) n
         | p >= n = [p | p == n]
@@ -55,6 +54,26 @@ factors :: Integral a => a -> [(a, a)]
 factors n = [(i, d) | i <- candidates, let (d, m) = divMod n i, m == 0]
   where
     candidates = takeWhile (\x -> x * x <= n) [1 ..]
+
+-- | Number of factors of n, including 1 and itself
+numFactors :: Integral a => a -> a
+numFactors = product . map ((+ 1) . snd) . primeFactors
+
+-- | Sum of the factors of a number excluding the number itself
+--
+-- Proof: https://cp-algorithms.com/algebra/divisors.html
+sumFactors :: Integral a => a -> a
+sumFactors n =
+    let prod =
+            product
+                [ res
+                | (p, a) <- primeFactors n
+                , let res =
+                          if a > 1
+                              then (p ^ (a + 1) - 1) `div` (p - 1)
+                              else p + 1  -- this results in a lot of memory saving (division is expensive)
+                ]
+    in prod - n
 
 -- | Infinite primes with wheel
 --
@@ -75,11 +94,11 @@ primes =
 
 -- | Get the nth element of a Fibonacci-esque sequence
 xnacci :: (Integral b, Num a) => [a] -> b -> a
-xnacci initial n = head $ head $ deMatrix $ matInit * basis ^ n
+xnacci initial n = head $ head $ deMatrix $ matInit * basis |^| n
   where
-    matInit = Matrix [initial]
+    matInit = Matrix [initial] 1 (length initial)
     basis = setLastToOne $ identity (length initial) (-1)
-    setLastToOne (Matrix xss) = Matrix [init xs ++ [1] | xs <- xss]
+    setLastToOne (Matrix xss n m) = Matrix [init xs ++ [1] | xs <- xss] n m
 
 -- | Generate Fibonacci-esque sequence from initial sequence
 xnaccis :: Num a => [a] -> [a]

@@ -1,5 +1,8 @@
 module EulerUtil
-    ( sum'
+    ( problemInputPath
+    , getProblemInput
+    , sum'
+    , product'
     , minus
     , union
     , joinT
@@ -7,15 +10,32 @@ module EulerUtil
     , primeWheel
     , Matrix(..)
     , identity
+    , matTranspose
+    , (|^|)
     , Nat
     , lazyLen
     ) where
 
-import Control.Applicative ( liftA2 )
-import Data.List           ( foldl', transpose )
+import           Control.Applicative ( liftA2 )
+import           Data.List           ( foldl', transpose )
+import           Data.Map            ( Map, (!?) )
+import qualified Data.Map.Strict     as M
+import           Text.Printf         ( printf )
+
+problemInputPath :: FilePath
+problemInputPath = "problem_inputs/"
+
+-- problemInputPath = "/home/peter/programs/ProjectEuler/PEHaskell/problem_inputs/"
+getProblemInput :: Int -> IO String
+getProblemInput n =
+    let fp = printf "%sP%03d.txt" problemInputPath n
+    in readFile fp
 
 sum' :: (Foldable t, Num a) => t a -> a
 sum' = foldl' (+) 0
+
+product' :: (Foldable t, Num a) => t a -> a
+product' = foldl' (*) 1
 
 -- Ordered lists, difference and union
 -- | Non-decreasing list difference
@@ -90,27 +110,27 @@ primeWheel =
     6 :
     2 : 6 : 6 : 4 : 2 : 4 : 6 : 2 : 6 : 4 : 2 : 4 : 2 : 10 : 2 : 10 : primeWheel
 
-newtype Matrix a =
+data Matrix a =
     Matrix
         { deMatrix :: [[a]]
+        , numRows  :: Int
+        , numCols  :: Int
         }
     deriving (Eq, Show)
 
 instance Functor Matrix where
-    fmap f (Matrix xss) = Matrix $ fmap (fmap f) xss
+    fmap f (Matrix xss n m) = Matrix (fmap (fmap f) xss) n m
 
 instance Applicative Matrix where
-    pure a = Matrix [[a]]
-    (Matrix fss) <*> (Matrix xss) = Matrix $ zipWith (zipWith id) fss xss
-
-instance Monad Matrix where
-    (Matrix xss) >>= f = error "not implemented"
+    pure a = Matrix [[a]] 1 1
+    (Matrix fss a b) <*> (Matrix xss n m)
+        | a == n && n == m = Matrix (zipWith (zipWith id) fss xss) n m
 
 instance Num a => Num (Matrix a) where
     (+) = liftA2 (+)
     (-) = liftA2 (-)
-    (Matrix xss) * (Matrix yss) =
-        Matrix [[sum $ zipWith (*) xs ys | ys <- transYss] | xs <- xss]
+    (Matrix xss n _) * (Matrix yss _ m) =
+        Matrix [[sum' $ zipWith (*) xs ys | ys <- transYss] | xs <- xss] n m
       where
         transYss = transpose yss
     abs = fmap abs
@@ -118,13 +138,35 @@ instance Num a => Num (Matrix a) where
     fromInteger = pure . fromInteger
 
 identity :: Num a => Int -> Int -> Matrix a
-identity n k =
-    Matrix
-        [ if 0 <= i + k && i + k < n
-            then replicate (i + k) 0 ++ 1 : replicate (n - i - k - 1) 0
-            else replicate n 0
-        | i <- [0 .. n - 1]
-        ]
+identity n k = Matrix ident n n
+  where
+    ident =
+        let ident' =
+                case signum k of
+                    (-1) -> replicate (abs k) (repeat 0) ++ infiniteIdent
+                    0    -> infiniteIdent
+                    1    -> drop k infiniteIdent
+        in shapeII ident'
+    shapeII = map (take n) . take n
+    infiniteIdent = (1 : repeat 0) : fmap (0 :) infiniteIdent
+
+matTranspose :: Matrix a -> Matrix a
+matTranspose (Matrix xss n m) = Matrix (transpose xss) m n
+
+infixr 8 |^|
+
+(|^|) :: (Num a, Integral b) => Matrix a -> b -> Matrix a
+(|^|) m = go (identity (numRows m) 0) (matTranspose m)
+  where
+    go res _ 0 = res
+    go res tm n =
+        let res' =
+                if odd n
+                    then res *| tm
+                    else res
+        in go res' (tm * tm) (n `div` 2)
+    (Matrix xss n _) *| (Matrix yss _ m) =
+        Matrix [[sum' $ zipWith (*) xs ys | ys <- yss] | xs <- xss] n m
 
 data Nat
     = Z

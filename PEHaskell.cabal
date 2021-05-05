@@ -2,12 +2,12 @@ name:                PEHaskell
 version:             0.1.0.0
 -- synopsis:
 -- description:
-homepage:            https://github.com/githubuser/PEHaskell#readme
+homepage:            https://github.com/peterjayandrew/PEHaskell#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2021 Author name here
+author:              Peter Andrew
+maintainer:          peterjayandrew@gmail.com
+copyright:           2021 Peter Andrew
 category:            Web
 build-type:          Simple
 extra-source-files:  README.md
@@ -17,8 +17,8 @@ library
   hs-source-dirs:      src
   exposed-modules:     EulerMath
                      , Problems
-  other-modules:       EulerUtil
-                     , Problems.P001, Problems.P002, Problems.P003, Problems.P004, Problems.P005
+                     , EulerUtil
+  other-modules:       Problems.P001, Problems.P002, Problems.P003, Problems.P004, Problems.P005
                      , Problems.P006, Problems.P007, Problems.P008, Problems.P009, Problems.P010
                      , Problems.P011, Problems.P012, Problems.P013, Problems.P014, Problems.P015
                      , Problems.P016, Problems.P017, Problems.P018, Problems.P019, Problems.P020
@@ -39,7 +39,11 @@ library
                      , Problems.P091, Problems.P092, Problems.P093, Problems.P094, Problems.P095
                      , Problems.P096, Problems.P097, Problems.P098, Problems.P099
   build-depends:       base >= 4.7 && < 5
+                     , containers >= 0.6.4.1
                      , split >= 0.2.3.4
+                     , vector >= 0.12.3.0
+                     , mtl >= 2.2.2
+                     , PSQueue >= 1.1.0.1
   default-language:    Haskell2010
 
 executable PEHaskell
@@ -50,6 +54,21 @@ executable PEHaskell
   default-language:    Haskell2010
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
 
+benchmark PEHaskell-bench
+  type: exitcode-stdio-1.0
+  main-is: Bench.hs
+  -- other-modules:
+  --    Paths_PEHaskell
+  hs-source-dirs:
+      bench
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      PEHaskell
+    , base >=4.7 && <5
+    , split >=0.2.3.4
+    , criterion >= 1.5.9.0
+  default-language: Haskell2010
+
 source-repository head
   type:     git
-  location: https://github.com/githubuser/PEHaskell
+  location: https://github.com/peterjayandrew/PEHaskell

@@ -2,8 +2,6 @@ module Problems.P005
     ( p005
     ) where
 
-import EulerMath
-
 {- lcm Reduction:
  - The lcm of a number and its factors is that number
  - So we can remove all the factors of a number < the number

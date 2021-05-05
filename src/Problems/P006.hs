@@ -2,7 +2,7 @@ module Problems.P006
     ( p006
     ) where
 
-import EulerMath
+import EulerMath ( sumRange )
 
 sumSquares :: Integral a => a -> a
 sumSquares n = (n * (n + 1) * (2 * n + 1)) `div` 6

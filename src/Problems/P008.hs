@@ -2,12 +2,13 @@ module Problems.P008
     ( p008
     ) where
 
-import Data.List
-import EulerMath
+import Data.List ( tails )
+import EulerMath ( lazyLen )
+import EulerUtil ( getProblemInput )
 
 loadData :: IO [Int]
 loadData = do
-    fileStr <- filter (/= '\n') <$> readFile "/home/peter/programs/ProjectEuler/PEHaskell/problem_inputs/P008.txt"
+    fileStr <- filter (/= '\n') <$> getProblemInput 8
     return $ map (read . return) fileStr
 
 solve :: IO Int
