@@ -30,7 +30,7 @@ version = Version [0,1,0,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
 bindir     = "/home/peter/programs/ProjectEuler/PEHaskell/.stack-work/install/x86_64-linux-tinfo6/e867d77db1dab9a72bb69ffc1a0aa6d1013a554d9db0ac6aa98be5627a894f6d/8.10.4/bin"
-libdir     = "/home/peter/programs/ProjectEuler/PEHaskell/.stack-work/install/x86_64-linux-tinfo6/e867d77db1dab9a72bb69ffc1a0aa6d1013a554d9db0ac6aa98be5627a894f6d/8.10.4/lib/x86_64-linux-ghc-8.10.4/PEHaskell-0.1.0.0-8pck6UDeyYH8lKK8ZVN1oE"
+libdir     = "/home/peter/programs/ProjectEuler/PEHaskell/.stack-work/install/x86_64-linux-tinfo6/e867d77db1dab9a72bb69ffc1a0aa6d1013a554d9db0ac6aa98be5627a894f6d/8.10.4/lib/x86_64-linux-ghc-8.10.4/PEHaskell-0.1.0.0-2LDZ4EaRoFxHN2lUPscq9Z"
 dynlibdir  = "/home/peter/programs/ProjectEuler/PEHaskell/.stack-work/install/x86_64-linux-tinfo6/e867d77db1dab9a72bb69ffc1a0aa6d1013a554d9db0ac6aa98be5627a894f6d/8.10.4/lib/x86_64-linux-ghc-8.10.4"
 datadir    = "/home/peter/programs/ProjectEuler/PEHaskell/.stack-work/install/x86_64-linux-tinfo6/e867d77db1dab9a72bb69ffc1a0aa6d1013a554d9db0ac6aa98be5627a894f6d/8.10.4/share/x86_64-linux-ghc-8.10.4/PEHaskell-0.1.0.0"
 libexecdir = "/home/peter/programs/ProjectEuler/PEHaskell/.stack-work/install/x86_64-linux-tinfo6/e867d77db1dab9a72bb69ffc1a0aa6d1013a554d9db0ac6aa98be5627a894f6d/8.10.4/libexec/x86_64-linux-ghc-8.10.4/PEHaskell-0.1.0.0"

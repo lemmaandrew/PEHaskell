@@ -2,7 +2,7 @@ module Problems.P007
     ( p007
     ) where
 
-import EulerMath ( primes )
+import EulerMath ( primesTMWE )
 
 p007 :: IO ()
-p007 = print $ primes !! 10000
+p007 = print $ primesTMWE !! 10000

@@ -11,16 +11,16 @@
   (major1) == 0 && (major2) == 1 && (minor) <= 0)
 #endif /* MIN_VERSION_PEHaskell */
 
-/* package PSQueue-1.1.0.1 */
-#ifndef VERSION_PSQueue
-#define VERSION_PSQueue "1.1.0.1"
-#endif /* VERSION_PSQueue */
-#ifndef MIN_VERSION_PSQueue
-#define MIN_VERSION_PSQueue(major1,major2,minor) (\
-  (major1) <  1 || \
-  (major1) == 1 && (major2) <  1 || \
-  (major1) == 1 && (major2) == 1 && (minor) <= 0)
-#endif /* MIN_VERSION_PSQueue */
+/* package array-0.5.4.0 */
+#ifndef VERSION_array
+#define VERSION_array "0.5.4.0"
+#endif /* VERSION_array */
+#ifndef MIN_VERSION_array
+#define MIN_VERSION_array(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  5 || \
+  (major1) == 0 && (major2) == 5 && (minor) <= 4)
+#endif /* MIN_VERSION_array */
 
 /* package base-4.14.1.0 */
 #ifndef VERSION_base
@@ -177,10 +177,10 @@
 #endif /* MIN_TOOL_VERSION_strip */
 
 #ifndef CURRENT_PACKAGE_KEY
-#define CURRENT_PACKAGE_KEY "PEHaskell-0.1.0.0-8pck6UDeyYH8lKK8ZVN1oE"
+#define CURRENT_PACKAGE_KEY "PEHaskell-0.1.0.0-2LDZ4EaRoFxHN2lUPscq9Z"
 #endif /* CURRENT_PACKAGE_KEY */
 #ifndef CURRENT_COMPONENT_ID
-#define CURRENT_COMPONENT_ID "PEHaskell-0.1.0.0-8pck6UDeyYH8lKK8ZVN1oE"
+#define CURRENT_COMPONENT_ID "PEHaskell-0.1.0.0-2LDZ4EaRoFxHN2lUPscq9Z"
 #endif /* CURRENT_COMPONENT_ID */
 #ifndef CURRENT_PACKAGE_VERSION
 #define CURRENT_PACKAGE_VERSION "0.1.0.0"

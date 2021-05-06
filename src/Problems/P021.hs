@@ -4,13 +4,13 @@ module Problems.P021
 
 import           Data.IntSet ( IntSet )
 import qualified Data.IntSet as IS
-import EulerMath ( sum', factors, sumFactors )
+import EulerMath ( sum', factors, sumFactorsTMWE )
 
 amicable :: Integral a => a -> Maybe a
 amicable 1 = Nothing
 amicable n =
-    let sd = sumFactors n
-    in if sumFactors sd == n && sd /= n
+    let sd = sumFactorsTMWE n
+    in if sumFactorsTMWE sd == n && sd /= n
             then Just sd
             else Nothing
 

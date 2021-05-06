@@ -7,7 +7,7 @@
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P028.hs:
   hash: f89080b299f5781fb9b4eb611490fb4fbca0cca954a4cdfc188bb06efc0c4e6c
 /home/peter/programs/ProjectEuler/PEHaskell/README.md:
-  hash: b7be6685c4aa73e6d3bcfb93b03163fd93094f1b0839a150eb810eca607f1aa4
+  hash: 2a364ef4501e06f09e63a1de11f5d7772c5f3d5f03f53626156c3dab25abcb60
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P013.hs:
   hash: 5482e3d0f27cac4a3441762dabd0e9cc3ffa1346ca319a514cbc496e0ab3a4fd
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P031.hs:
@@ -25,7 +25,7 @@
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P081.hs:
   hash: 76b0df6cf9c53cb5d5ba87678849035e6ddef575c33333790289a242334afe63
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P010.hs:
-  hash: a6bad144889989a63e29a0e54b623b33741591e3e900509461897eb0293cb2a9
+  hash: 7f94113986251472e5e2fd6f9885daa2df8d8831d703a6ac6acf4449e4be45f9
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P048.hs:
   hash: d17b62457cbe55391bdb95de5ef012d6b572a2d35b8b338ce8ad0f3bf7f01a5b
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P037.hs:
@@ -43,9 +43,9 @@
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P092.hs:
   hash: 7f5fb423668dbef26f628ca52416a9fe2d396cf6efa9b5fa86864b47166a93e1
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P021.hs:
-  hash: a15369a99c99b81f56ea995c81267e695ffe88800c92aa6ace63fa779ed10fdb
+  hash: 565fd05ec215e13882ea3566511eecbcba1b4b41d0c210db76a7f4e6d2e35b86
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P003.hs:
-  hash: 2e9c23557eeb2014f6c502e9ea830f96ac8a6a6cde5b06a6cc14d1be017d2cce
+  hash: d81ea1d4dfef05515063987877741d2364ed42f0fbdf2d3a5cc92eb7205e5669
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P038.hs:
   hash: ab1ee27f14449d8c4cdeaf6900d4b0796f437e1015046e3f557ac5cb36d304a3
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P065.hs:
@@ -121,7 +121,7 @@
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P001.hs:
   hash: 00b4936887c9fc20a0e77e653fb161e2759f41c04b84c54e3cd7d8bd9568b01e
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P023.hs:
-  hash: 5796f48321fb1098e70a49bc914d1a979e88c8d2db003649dfbd06012f5084e5
+  hash: 6817854a9928085fc143619f9746ba64f7c5258683bbc9954db6e95a8f725c69
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P045.hs:
   hash: ad936d2990a1a119fb2a5ff3c4bfd50fc9fb8bb4572707d674a51a679686c07a
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P089.hs:
@@ -139,7 +139,7 @@
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P040.hs:
   hash: 0016c17cfe710b9e7e84732be247955880c4d807524d3e2c8e92ab5039adbde6
 /home/peter/programs/ProjectEuler/PEHaskell/src/EulerMath.hs:
-  hash: e29279bf646c59ffef1128b854bd4cca06991f14ed8aa547fd106c71cf8967d4
+  hash: da1b35638a3c5b7d657f22bb785c6fe908b0e027a8b4ea38791706ff83255878
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P059.hs:
   hash: 14b89c7a29ff3a49d9b1c81f95645aa8f05ce949cc47c6ba9a9e22e9b768903f
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P062.hs:
@@ -155,7 +155,7 @@
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P083.hs:
   hash: dc076bfd70bdfdaa8d1dcbb8e223ce28c1b322e12591eca1bbaa35cd8640b21f
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P012.hs:
-  hash: ffa47499f044e414ea4cfac31644e4183602900ad0a5a7bbfc591f80e484326a
+  hash: d59ec3dd999bb274be5fb30182796b2c19c603e01beaeca2eb7ef4dc75d4faf1
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P035.hs:
   hash: d5baecdd510156ccee872ce185faaea48a8b437a1a35277843f75d5c03b3a59b
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P053.hs:
@@ -171,7 +171,7 @@
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P036.hs:
   hash: 92069c8f52b9f63e6b8303216b8f83cc84ddf8a000696327b72e70d97e16b295
 /home/peter/programs/ProjectEuler/PEHaskell/PEHaskell.cabal:
-  hash: a29d5683cb5a0564532408e602a87781d1297623a22c5a44618c6ef4e364760c
+  hash: f429501bb7bd2106ff2c56b5dbf264513c8edfe983043d6f78765ed32642ee46
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P050.hs:
   hash: 00745b2b45595cca5badfac76b016b4b954a9d90f928d396d8a13b4bd3a6b9d9
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P085.hs:
@@ -199,7 +199,7 @@
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P096.hs:
   hash: 8aae08b1efa98ddbd5dfdb6523d28b5d04fd3f6d4bb6b4f8e8aa986717903469
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P007.hs:
-  hash: d09d9f6ffec4f11cb98d04984a3c31912f5621f21e157357ba9b08a2260ea70a
+  hash: f25440e34bacefa29ad94638ba265f41eb6e07484451c2af22e7de020fa025ce
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P043.hs:
   hash: 3c95f6ab2508a1b2cb4ba57a7b14311ca8a9dfa44ce3b394c8e390862bb5fc97
 /home/peter/programs/ProjectEuler/PEHaskell/src/Problems/P025.hs:

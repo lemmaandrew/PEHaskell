@@ -2,18 +2,23 @@
 module EulerMath
     ( module EulerUtil
     , sumRange
+    , primesTMWE
+    , primesSA
     , isPrime
-    , primeFactors
+    , primeFactorsTMWE
+    , primeFactorsSA
     , factors
-    , numFactors
-    , sumFactors
-    , primes
+    , numFactorsTMWE
+    , numFactorsSA
+    , sumFactorsTMWE
+    , sumFactorsSA
     , xnacci
     , xnaccis
     , fib
     , fibs
     ) where
 
+import Data.Array.Unboxed
 import Data.List
 import EulerUtil
 
@@ -24,62 +29,11 @@ sumRange a b d =
         b' = (n - 1) * d + a -- n - 1 to exclude first term (a)
     in (n * (a + b')) `div` 2
 
--- | Simple determininistic primality test
-isPrime :: Integral a => a -> Bool
-isPrime n
-    | n < 4 = n > 1
-    | even n || n `mod` 3 == 0 = False
-    | otherwise =
-        let candidates = takeWhile (\x -> x * x <= n) [5,11 ..]
-        in all (\x -> n `mod` x /= 0 && n `mod` (x + 2) /= 0) candidates
-
--- | List out the prime factors of a number, repeating factors as needed
---
--- e.g.,
---
--- primeFactors 54 == [(2, 1), (3, 3)]
-primeFactors :: (Integral a, Integral b) => a -> [(a, b)]
-primeFactors =
-    map (\xs@(x:_) -> (x, fromIntegral $ length xs)) . group . go primes
-  where
-    go (p:ps) n
-        | p >= n = [p | p == n]
-        | otherwise =
-            let (d, m) = divMod n p
-            in if m == 0
-                    then p : go (p : ps) d
-                    else go ps n
-
-factors :: Integral a => a -> [(a, a)]
-factors n = [(i, d) | i <- candidates, let (d, m) = divMod n i, m == 0]
-  where
-    candidates = takeWhile (\x -> x * x <= n) [1 ..]
-
--- | Number of factors of n, including 1 and itself
-numFactors :: Integral a => a -> a
-numFactors = product . map ((+ 1) . snd) . primeFactors
-
--- | Sum of the factors of a number excluding the number itself
---
--- Proof: https://cp-algorithms.com/algebra/divisors.html
-sumFactors :: Integral a => a -> a
-sumFactors n =
-    let prod =
-            product
-                [ res
-                | (p, a) <- primeFactors n
-                , let res =
-                          if a > 1
-                              then (p ^ (a + 1) - 1) `div` (p - 1)
-                              else p + 1  -- this results in a lot of memory saving (division is expensive)
-                ]
-    in prod - n
-
 -- | Infinite primes with wheel
 --
 -- From: https://wiki.haskell.org/Prime_numbers#Tree_merging_with_Wheel
-primes :: Integral a => [a]
-primes =
+primesTMWE :: Integral a => [a]
+primesTMWE =
     [2, 3, 5, 7] ++
     _Y ((11 :) .
         tail .
@@ -91,6 +45,114 @@ primes =
                  scanl (+) (p - rem (p - 11) 210) primeWheel))
   where
     _Y g = g (_Y g) -- Fixpoint combinator that prevents memory leaks from unnecessary memoization
+
+-- | A list of primes generated using unboxed arrays
+--
+-- Has the distinct advantage of being much faster than primesTMWE, but the disadvantage of only producing
+-- up to Int max bound (2^63 - 1)
+primesSA :: [Int]
+primesSA = 2 : oddprimes ()
+  where
+    oddprimes = (3 :) . sieve 3 [] . oddprimes
+    sieve x fs (p:ps) =
+        [i + i + x | (i, True) <- assocs a] ++
+        sieve (p * p) ((p, 0) : [(s, rem (y - q) s) | (s, y) <- fs]) ps
+      where
+        q = (p * p - x) `div` 2
+        a :: UArray Int Bool
+        a =
+            accumArray
+                (\_ _ -> False)
+                True
+                (1, q - 1)
+                [(i, ()) | (s, y) <- fs, i <- [y + s,y + s + s .. q]]
+
+-- | Simple determininistic primality test
+isPrime :: Integral a => a -> Bool
+isPrime n
+    | n < 4 = n > 1
+    | even n || n `mod` 3 == 0 = False
+    | otherwise =
+        let candidates = takeWhile (\x -> x * x <= n) [5,11 ..]
+        in all (\x -> n `mod` x /= 0 && n `mod` (x + 2) /= 0) candidates
+
+isPrimeTMWE :: Integral a => a -> Bool
+isPrimeTMWE n = all (\p -> n `mod` p /= 0) $ takeWhile (\p -> p*p <= n) primesTMWE
+
+isPrimeSA :: Integral a => a -> Bool
+isPrimeSA n = all (\p -> n `mod` p /= 0) $ takeWhile (\p -> p*p <= n) $ map fromIntegral primesSA
+
+-- | List out the prime factors of a number, repeating factors as needed
+--
+-- e.g.,
+--
+-- primeFactorsTMWE 54 == [(2, 1), (3, 3)]
+primeFactorsTMWE :: (Integral a, Integral b) => a -> [(a, b)]
+primeFactorsTMWE =
+    map (\xs@(x:_) -> (x, fromIntegral $ length xs)) . group . go primesTMWE
+  where
+    go (p:ps) n
+        | p >= n = [p | p == n]
+        | otherwise =
+            let (d, m) = divMod n p
+            in if m == 0
+                    then p : go (p : ps) d
+                    else go ps n
+
+primeFactorsSA :: Int -> [(Int, Int)]
+primeFactorsSA =
+    map (\xs@(x:_) -> (x, length xs)) . group . go primesSA
+  where
+    go (p:ps) n
+        | p >= n = [p | p == n]
+        | otherwise =
+            let (d, m) = divMod n p
+            in if m == 0
+                    then p : go (p : ps) d
+                    else go ps n
+
+
+factors :: Integral a => a -> [(a, a)]
+factors n = [(i, d) | i <- candidates, let (d, m) = divMod n i, m == 0]
+  where
+    candidates = takeWhile (\x -> x * x <= n) [1 ..]
+
+-- | Number of factors of n, including 1 and itself
+numFactorsTMWE :: Integral a => a -> a
+numFactorsTMWE = product . map ((+ 1) . snd) . primeFactorsTMWE
+
+numFactorsSA :: Int -> Int
+numFactorsSA = product . map ((+ 1) . snd) . primeFactorsSA
+
+-- | Sum of the factors of a number excluding the number itself
+--
+-- Proof: https://cp-algorithms.com/algebra/divisors.html
+sumFactorsTMWE :: Integral a => a -> a
+sumFactorsTMWE n =
+    let prod =
+            product
+                [ res
+                | (p, a) <- primeFactorsTMWE n
+                , let res =
+                          if a > 1
+                              then (p ^ (a + 1) - 1) `div` (p - 1)
+                              else p + 1 -- this resultsin a lot of memory saving (division is expensive)
+                ]
+    in prod - n
+
+sumFactorsSA :: Int -> Int
+sumFactorsSA n =
+    let prod =
+            product
+                [ res
+                | (p, a) <- primeFactorsSA n
+                , let res =
+                          if a > 1
+                              then (p ^ (a + 1) - 1) `div` (p - 1)
+                              else p + 1 -- this resultsin a lot of memory saving (division is expensive)
+                ]
+    in prod - n
+
 
 -- | Get the nth element of a Fibonacci-esque sequence
 xnacci :: (Integral b, Num a) => [a] -> b -> a
