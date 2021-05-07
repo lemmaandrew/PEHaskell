@@ -2,7 +2,7 @@ module Problems.P003
     ( p003
     ) where
 
-import EulerMath ( primeFactorsTMWE )
+import EulerMath ( primeFactorsSA )
 
 p003 :: IO ()
-p003 = print $ last $ primeFactorsTMWE 600851475143
+p003 = print $ last $ primeFactorsSA 600851475143

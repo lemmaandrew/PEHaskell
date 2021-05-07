@@ -15,24 +15,36 @@ testnums =
 testSuite :: [Benchmark]
 testSuite =
     [ bgroup "isPrime" $ buildBench isPrime
-    , bgroup "primeFactors" $ buildBench (primeFactors :: Int -> [(Int, Int)])
+    , bgroup "isPrimeTMWE" $ buildBench isPrimeTMWE
+    , bgroup "isPrimeSA" $ buildBench isPrimeSA
+    , bgroup "primeFactorsTMWE" $ buildBench (primeFactorsTMWE :: Int -> [(Int, Int)])
+    , bgroup "primeFactorsSA" $ buildBench primeFactorsSA
 --    , bgroup "factors" $ buildBench factors
-    , bgroup "numFactors" $ buildBench numFactors
-    , bgroup "sumFactors" $ buildBench sumFactors
-    , bgroup "fib" $ buildBench (fib :: Int -> Int)
+    , bgroup "numFactorsTMWE" $ buildBench numFactorsTMWE
+    , bgroup "numFactorsSA" $ buildBench numFactorsSA
+    , bgroup "sumFactorsTMWE" $ buildBench sumFactorsTMWE
+    , bgroup "sumFactorsSA" $ buildBench sumFactorsSA
+--    , bgroup "fib" $ buildBench (fib :: Int -> Int)
     ]
   where
     buildBench f = [bench (show n) $ nf f n | n <- testnums]
 
 profSuite :: [()]
 profSuite =
-    [ rnf $ map isPrime testnums
-    , rnf (map primeFactors testnums :: [[(Int, Int)]])
-    , rnf (map factors testnums :: [[(Int, Int)]])
-    , rnf (map numFactors testnums :: [Int])
-    , rnf (map sumFactors testnums :: [Int])
-    , rnf (map fib testnums :: [Int])
+    [ --buildBench isPrime
+--      buildBench isPrimeTMWE
+      buildBench isPrimeSA
+--    , buildBench (primeFactorsTMWE :: Int -> [(Int, Int)])
+    , buildBench primeFactorsSA
+--    , rnf (map factors testnums :: [[(Int, Int)]])
+--    , buildBench numFactorsTMWE
+    , buildBench numFactorsSA
+--    , buildBench sumFactorsTMWE
+    , buildBench sumFactorsSA
+--    , rnf (map fib testnums :: [Int])
     ]
+  where
+    buildBench f = rnf $ map f testnums
 
 usage :: String
 usage = "Usage: \n\
