@@ -5,6 +5,8 @@ module EulerMath
     , primesTMWE
     , primesSA
     , isPrime
+    , isPrimeTMWE
+    , isPrimeSA
     , primeFactorsTMWE
     , primeFactorsSA
     , factors
@@ -14,15 +16,18 @@ module EulerMath
     , sumFactorsSA
     , xnacci
     , xnaccis
+    , invXnacci
     , fib
     , fibs
+    , invFib
     ) where
 
 import Data.Array.Unboxed
 import Data.List
+import Data.Ord ( comparing )
 import EulerUtil
 
--- | Sum of range [a, a + d .. d]
+-- | sumRange a b d == Sum of range [a, a + d .. b]
 sumRange :: Integral a => a -> a -> a -> a
 sumRange a b d =
     let n = (b - a) `div` d + 1
@@ -168,8 +173,28 @@ xnaccis (x:xs) = xnaccis'
   where
     xnaccis' = xs <> scanl' (+) x xnaccis'
 
+-- | Finds the index of the closest element of a Fibonacci-esque sequence to a number
+invXnacci :: (Num a, Ord a, Integral b) => [a] -> a -> b
+invXnacci initial n =
+    let bigIdx = until (\idx -> xn idx >= n) (*2) 1
+    in go (bigIdx `div` 2) bigIdx
+  where
+    go lidx ridx
+        | lidx + 1 >= ridx = minimumBy (comparing (\idx -> abs (xn idx - n))) [lidx, ridx]
+        | otherwise =
+            let mididx = (lidx + ridx) `div` 2
+                mid = xn mididx
+            in case compare n mid of
+                LT -> go lidx mididx
+                EQ -> mididx
+                GT -> go mididx ridx
+    xn = xnacci initial
+
 fibs :: Num a => [a]
 fibs = xnaccis [1, 1]
 
 fib :: (Integral a, Num b) => a -> b
 fib = xnacci [1, 1]
+
+invFib :: (Num a, Ord a, Integral b) => a -> b
+invFib = invXnacci [1, 1]
