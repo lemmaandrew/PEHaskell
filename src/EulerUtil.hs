@@ -2,9 +2,9 @@ module EulerUtil
     ( problemInputPath
     , getProblemInput
     , sum'
-    , product'
     , minus
     , union
+    , intersect
     , joinT
     , gapsW
     , primeWheel
@@ -34,9 +34,6 @@ getProblemInput n =
 sum' :: (Foldable t, Num a) => t a -> a
 sum' = foldl' (+) 0
 
-product' :: (Foldable t, Num a) => t a -> a
-product' = foldl' (*) 1
-
 -- Ordered lists, difference and union
 -- | Non-decreasing list difference
 minus :: Ord a => [a] -> [a] -> [a]
@@ -56,6 +53,16 @@ union (x:xs) (y:ys) =
         GT -> y : union (x : xs) ys
 union xs [] = xs
 union [] ys = ys
+
+-- | Non-decreasing list intersection
+intersect :: Ord a => [a] -> [a] -> [a]
+intersect _ [] = []
+intersect [] _ = []
+intersect (x:xs) (y:ys) =
+    case compare x y of
+        LT -> xs `intersect` (y : ys)
+        EQ -> x : intersect xs ys
+        GT -> (x : xs) `intersect` ys
 
 -- Tree and wheel operations
 -- | Join tree

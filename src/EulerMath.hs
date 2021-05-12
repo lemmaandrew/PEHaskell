@@ -2,6 +2,7 @@
 module EulerMath
     ( module EulerUtil
     , sumRange
+    , factorial
     , primesTMWE
     , primesSA
     , isPrime
@@ -33,6 +34,15 @@ sumRange a b d =
     let n = (b - a) `div` d + 1
         b' = (n - 1) * d + a -- n - 1 to exclude first term (a)
     in (n * (a + b')) `div` 2
+
+factorial :: Integral a => a -> a
+factorial = go 1
+  where
+    go start n
+        | n <= 16 = product [start .. start + n - 1]
+        | otherwise =
+            let i = n `div` 2
+            in go start i * go (start + i) (n - i)
 
 -- | Infinite primes with wheel
 --
