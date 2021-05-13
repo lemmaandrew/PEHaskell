@@ -3,4 +3,4 @@ module Problems.P046
     ) where
 
 p046 :: IO ()
-p046 = print 0
+p046 = putStrLn "Lol didn't do it yet lmao"
