@@ -2,6 +2,8 @@
 module EulerMath
     ( module EulerUtil
     , sumRange
+    , digits
+    , sumDigits
     , factorial
     , primesTMWE
     , primesSA
@@ -34,6 +36,26 @@ sumRange a b d =
     let n = (b - a) `div` d + 1
         b' = (n - 1) * d + a -- n - 1 to exclude first term (a)
     in (n * (a + b')) `div` 2
+
+-- | Returns the digits of a number
+--
+-- For example:  
+-- digits 12345 == [1,2,3,4,5]
+digits :: Integral a => a -> [a]
+digits n
+    | n < 10 = [n]
+    | otherwise =
+        let (d, m) = divMod n 10
+        in digits d ++ [m]
+
+sumDigits :: Integral a => a -> a
+sumDigits = go 0
+  where
+    go s n
+        | n < 10 = s + n
+        | otherwise =
+            let (d, m) = divMod n 10
+            in go (s + m) d
 
 factorial :: Integral a => a -> a
 factorial = go 1

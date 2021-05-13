@@ -2,6 +2,7 @@ module EulerUtil
     ( problemInputPath
     , getProblemInput
     , sum'
+    , combinations
     , minus
     , union
     , intersect
@@ -33,6 +34,12 @@ getProblemInput n =
 
 sum' :: (Foldable t, Num a) => t a -> a
 sum' = foldl' (+) 0
+
+-- | Gets the unique n-long combinations of a list
+combinations :: (Eq t, Num t) => t -> [a] -> [[a]]
+combinations 0 _ = [[]]
+combinations _ [] = []
+combinations n (x : xs) = map (x :) (combinations (n - 1) xs) ++ combinations n xs
 
 -- Ordered lists, difference and union
 -- | Non-decreasing list difference

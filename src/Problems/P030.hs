@@ -15,12 +15,12 @@ So, our upper bound will be >= 5 digits
  -}
 
 import Data.Char ( digitToInt )
-import EulerMath ( sum' )
+import EulerMath ( sum', digits ) 
 
-digitPowSum :: (Show a, Integral b, Num c) => a -> b -> c
-digitPowSum n p = sum' [fromIntegral (digitToInt x) ^ p | x <- show n]
+digitPowSum :: (Integral a, Integral b) => a -> b -> a
+digitPowSum n p = sum' $ map (^ p) $ digits n
 
-isDigitPowSum :: (Num a, Show a, Eq a, Integral b) => a -> b -> Bool
+isDigitPowSum :: (Integral a, Integral b) => a -> b -> Bool
 isDigitPowSum n p = n == digitPowSum n p
 
 p030 :: IO ()

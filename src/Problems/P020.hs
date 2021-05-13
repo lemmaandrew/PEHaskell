@@ -2,7 +2,7 @@ module Problems.P020
     ( p020
     ) where
 
-import EulerMath ( sum' )
+import EulerMath ( factorial, sumDigits )
 
 p020 :: IO ()
-p020 = print $ sum' [fromEnum x - 48 | x <- show $ product [2 .. 100]]
+p020 = print $ sumDigits $ factorial 100

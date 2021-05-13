@@ -2,5 +2,7 @@ module Problems.P016
     ( p016
     ) where
 
+import EulerMath ( sumDigits )
+
 p016 :: IO ()
-p016 = print $ sum [fromEnum c - 48 | c <- show $ 2^1000]
+p016 = print $ sumDigits $ 2^1000
