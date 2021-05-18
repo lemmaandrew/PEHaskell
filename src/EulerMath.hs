@@ -5,6 +5,7 @@ module EulerMath
     , digits
     , sumDigits
     , factorial
+    , intSqrt
     , primesTMWE
     , primesSA
     , isPrime
@@ -27,7 +28,7 @@ module EulerMath
 
 import Data.Array.Unboxed
 import Data.List
-import Data.Ord ( comparing )
+import Data.Ord           ( comparing )
 import EulerUtil
 
 -- | sumRange a b d == Sum of range [a, a + d .. b]
@@ -39,7 +40,7 @@ sumRange a b d =
 
 -- | Returns the digits of a number
 --
--- For example:  
+-- For example:
 -- digits 12345 == [1,2,3,4,5]
 digits :: Integral a => a -> [a]
 digits n
@@ -65,6 +66,21 @@ factorial = go 1
         | otherwise =
             let i = n `div` 2
             in go start i * go (start + i) (n - i)
+
+-- | Integer square root
+--
+-- Ripped wholesale from:
+-- https://stackoverflow.com/questions/19965149/integer-square-root-function-in-haskell#19965405
+intSqrt :: Integral a => a -> a
+intSqrt 0 = 0
+intSqrt 1 = 1
+intSqrt n =
+    let twopows = iterate (^ 2) 2
+        lowerN = last $ takeWhile (n >=) (1 : twopows)
+        newtonStep x = div (x + div n x) 2
+        iters = iterate newtonStep (intSqrt (div n lowerN) * lowerN)
+        isRoot r = r * r <= n && n < (r + 1) * (r + 1)
+    in head $ dropWhile (not . isRoot) iters
 
 -- | Infinite primes with wheel
 --
@@ -114,10 +130,13 @@ isPrime n
         in all (\x -> n `mod` x /= 0 && n `mod` (x + 2) /= 0) candidates
 
 isPrimeTMWE :: Integral a => a -> Bool
-isPrimeTMWE n = all (\p -> n `mod` p /= 0) $ takeWhile (\p -> p*p <= n) primesTMWE
+isPrimeTMWE n =
+    all (\p -> n `mod` p /= 0) $ takeWhile (\p -> p * p <= n) primesTMWE
 
 isPrimeSA :: Integral a => a -> Bool
-isPrimeSA n = all (\p -> n `mod` p /= 0) $ takeWhile (\p -> p*p <= n) $ map fromIntegral primesSA
+isPrimeSA n =
+    all (\p -> n `mod` p /= 0) $
+    takeWhile (\p -> p * p <= n) $ map fromIntegral primesSA
 
 -- | List out the prime factors of a number, repeating factors as needed
 --
@@ -137,8 +156,7 @@ primeFactorsTMWE =
                     else go ps n
 
 primeFactorsSA :: Int -> [(Int, Int)]
-primeFactorsSA =
-    map (\xs@(x:_) -> (x, length xs)) . group . go primesSA
+primeFactorsSA = map (\xs@(x:_) -> (x, length xs)) . group . go primesSA
   where
     go (p:ps) n
         | p >= n = [p | p == n]
@@ -147,7 +165,6 @@ primeFactorsSA =
             in if m == 0
                     then p : go (p : ps) d
                     else go ps n
-
 
 factors :: Integral a => a -> [(a, a)]
 factors n = [(i, d) | i <- candidates, let (d, m) = divMod n i, m == 0]
@@ -190,7 +207,6 @@ sumFactorsSA n =
                 ]
     in prod - n
 
-
 -- | Get the nth element of a Fibonacci-esque sequence
 xnacci :: (Integral b, Num a) => [a] -> b -> a
 xnacci initial n = head $ head $ deMatrix $ matInit * basis |^| n
@@ -208,18 +224,19 @@ xnaccis (x:xs) = xnaccis'
 -- | Finds the index of the closest element of a Fibonacci-esque sequence to a number
 invXnacci :: (Num a, Ord a, Integral b) => [a] -> a -> b
 invXnacci initial n =
-    let bigIdx = until (\idx -> xn idx >= n) (*2) 1
+    let bigIdx = until (\idx -> xn idx >= n) (* 2) 1
     in go (bigIdx `div` 2) bigIdx
   where
     go lidx ridx
-        | lidx + 1 >= ridx = minimumBy (comparing (\idx -> abs (xn idx - n))) [lidx, ridx]
+        | lidx + 1 >= ridx =
+            minimumBy (comparing (\idx -> abs (xn idx - n))) [lidx, ridx]
         | otherwise =
             let mididx = (lidx + ridx) `div` 2
                 mid = xn mididx
             in case compare n mid of
-                LT -> go lidx mididx
-                EQ -> mididx
-                GT -> go mididx ridx
+                    LT -> go lidx mididx
+                    EQ -> mididx
+                    GT -> go mididx ridx
     xn = xnacci initial
 
 fibs :: Num a => [a]
